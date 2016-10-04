@@ -20,11 +20,10 @@ public class Main {
                     User user = users.get(name);
 
                     HashMap m = new HashMap();
-                    if (user != null){
+                    if (user != null) {
                         m.put("name", user.name);
                     }
                     return new ModelAndView(m, "home.html");
-
                 },
                 new MustacheTemplateEngine()
         );
@@ -35,8 +34,8 @@ public class Main {
                     String name = request.queryParams("loginName");
                     String password = request.queryParams("password");
 
-                    User user = user.get(name);
-                    if (user == null){
+                    User user = users.get(name);
+                    if (user == null) {
                         user = new User(name, password);
                         users.put(name, user);
                     }
@@ -44,13 +43,14 @@ public class Main {
                         response.redirect("/");
                         return null;
                     }
+
                     Session session = request.session();
                     session.attribute("loginName", name);
                     response.redirect("/");
                     return null;
-
                 }
         );
+
         Spark.post(
                 "/logout",
                 (request, response) -> {
@@ -58,10 +58,7 @@ public class Main {
                     session.invalidate();
                     response.redirect("/");
                     return null;
-
-
                 }
         );
-
     }
 }
